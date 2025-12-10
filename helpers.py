@@ -41,12 +41,4 @@ def register_new_courier_and_return_login_password():
     return login_pass
 
 
-@allure.step('Удаляем курьера')
-def delete_courier(login, password):
-    response_post = requests.post(Endpoint.LOGIN_COURIER, data={
-        'login': login,
-        'password': password,
-    })
-    courier_id = response_post.json()['id']
-    requests.delete(f'{Endpoint.DELETE_COURIER}{courier_id}')
 

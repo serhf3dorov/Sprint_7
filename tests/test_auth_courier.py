@@ -8,10 +8,11 @@ from helpers import *
 
 
 class TestAuthCourier:
-    @allure.step('Авторизация курьера')
+    @allure.title('Авторизация курьера')
     def test_auth_courier(self, create_courier):
         login_pass = create_courier
-        r = requests.post(Endpoint.LOGIN_COURIER, data={
+        with allure.step('Запрос на авторизацию курьера отправлен'):
+            r = requests.post(Endpoint.LOGIN_COURIER, data={
             'login': login_pass[0],
             'password': login_pass[1]
         })
@@ -19,10 +20,11 @@ class TestAuthCourier:
         assert Message.LOGING_COURIER in r.text
 
 
-    @allure.step('Авторизация курьера без логина')
+    @allure.title('Авторизация курьера без логина')
     def test_auth_without_login(self, create_courier):
         login_pass = create_courier
-        r = requests.post(Endpoint.LOGIN_COURIER, data={
+        with allure.step('Запрос на авторизацию курьера без логина отправлен'):
+            r = requests.post(Endpoint.LOGIN_COURIER, data={
             'login': '',
             'password': login_pass[1]
         })
@@ -30,10 +32,11 @@ class TestAuthCourier:
         assert Message.LOGING_COURIER_WITHOUT_DATA == r.text
 
 
-    @allure.step('Авторизация курьера без пароля')
+    @allure.title('Авторизация курьера без пароля')
     def test_auth_without_password(self, create_courier):
         login_pass = create_courier
-        r = requests.post(Endpoint.LOGIN_COURIER, data={
+        with allure.step('Запрос на авторизацию курьера без пароля отправлен'):
+            r = requests.post(Endpoint.LOGIN_COURIER, data={
             'login': login_pass[0],
             'password': ''
         })
@@ -41,9 +44,10 @@ class TestAuthCourier:
         assert Message.LOGING_COURIER_WITHOUT_DATA == r.text
 
 
-    @allure.step('Авторизация несуществующего курьера')
+    @allure.title('Авторизация несуществующего курьера')
     def test_auth_not_existing_courier(self):
-        r = requests.post(Endpoint.LOGIN_COURIER, data={
+        with allure.step('Запрос на авторизацию не существующего курьера отправлен'):
+            r = requests.post(Endpoint.LOGIN_COURIER, data={
             'login': 'ksenia',
             'password': 'qwerty1234'
         })
